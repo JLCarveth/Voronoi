@@ -5,7 +5,10 @@ import java.util.*
  */
 object Generator {
 
-    fun generate(size : Int, detail : Int, biome : Int) : TileMap {
+    /**
+     * Generates a TileMap using the Voronoi generation algorithm
+     */
+    fun generateVoronoi(size : Int, detail : Int, biome : Int) : TileMap {
         val points = getCenterPoints(detail, size, biome)
 
         val tilemap = TileMap(size)
@@ -25,6 +28,51 @@ object Generator {
         return tilemap
     }
 
+    /**
+     * Generates a TileMap through growth of centerpoints
+     * Similar to the Voronoi generation, where we select centerpoints.
+     * Each turn, these centerpoints can claim adjacent tiles equal to the
+     * number of tiles currently in that centerpoint's 'biome'
+     */
+    fun generateGrowth(size : Int, detail : Int, biome : Int) : TileMap {
+        val points = getCenterPoints(detail, size, biome)
+
+        val tilemap = TileMap(size)
+        val groups = ArrayList<PointGroup<Int>>()
+
+        // Add the Centerpoints to their respective groups
+        for (p in points) {
+            val g = PointGroup<Int>(p.data!!)
+            g.addPoint(p)
+            groups.add(g)
+
+            tilemap.placeTile(p.x ,p.y, p.data!!)
+        }
+
+        while (!tilemap.isTileMapFull()) {
+            for (g in groups) {
+                val adjPts = ArrayList<Point<Int>>()
+
+                // For every point in the group, get available adj. tiles
+                for (p in g.points) {
+                    if (p.data == 0 && !adjPts.contains(p)) {
+                        adjPts.add(p)
+                    }
+                }
+
+                adjPts.shuffle()
+
+                for (i in 0..g.getGroupSize()) {
+                    tilemap.placeTile(adjPts[i].x, adjPts[i].y, g.data)
+                    g.addPoint(adjPts[i])
+                }
+            }
+        }
+
+       return tilemap
+
+    }
+
     private fun getCenterPoints(detail: Int, size : Int, biome : Int): ArrayList<Point<Int>> {
         val points = ArrayList<Point<Int>>()
 
@@ -37,7 +85,6 @@ object Generator {
             println("$x,$y")
 
             if (!points.contains(Point(x,y))) {
-                println("Not contained")
                 val p = Point<Int>(x,y)
                 p.data = b
 
@@ -63,4 +110,5 @@ object Generator {
         }
         return minPoint
     }
+
 }

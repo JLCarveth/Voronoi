@@ -1,5 +1,6 @@
 data class Point<E>(val x : Int, val y : Int) {
     var data : E? = null
+
     /**
      * Returns the Euclidean Distance between two points
      */
@@ -14,6 +15,10 @@ data class Point<E>(val x : Int, val y : Int) {
         } else {
             false
         }
+    }
+
+    class CoordinatesOutOfBoundsException(p: Point<*>, size: Int) :
+            Exception("(${p.x}, ${p.y}) out of bounds for size : $size.") {
     }
 
 }
