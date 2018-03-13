@@ -1,3 +1,5 @@
+package com.github.jlcarveth.main
+
 import java.util.*
 
 /**
@@ -6,7 +8,7 @@ import java.util.*
 object Generator {
 
     /**
-     * Generates a TileMap using the Voronoi generation algorithm
+     * Generates a com.github.jlcarveth.main.TileMap using the Voronoi generation algorithm
      */
     fun generateVoronoi(size : Int, detail : Int, biome : Int) : TileMap {
         val points = getCenterPoints(detail, size, biome)
@@ -20,7 +22,7 @@ object Generator {
 
         for (y in 0 until size) {
             for (x in 0 until size) {
-                val p = getClosestCenterPoint(tilemap.getTilePoint(x,y), points)
+                val p = getClosestCenterPoint(tilemap.getTilePoint(x, y), points)
                 tilemap.placeTile(x,y,p.data!!)
             }
         }
@@ -29,7 +31,7 @@ object Generator {
     }
 
     /**
-     * Generates a TileMap through growth of centerpoints
+     * Generates a com.github.jlcarveth.main.TileMap through growth of centerpoints
      * Similar to the Voronoi generation, where we select centerpoints.
      * Each turn, these centerpoints can claim adjacent tiles equal to the
      * number of tiles currently in that centerpoint's 'biome'
@@ -84,8 +86,8 @@ object Generator {
 
             println("$x,$y")
 
-            if (!points.contains(Point(x,y))) {
-                val p = Point<Int>(x,y)
+            if (!points.contains(Point(x, y))) {
+                val p = Point<Int>(x, y)
                 p.data = b
 
                 points.add(p)

@@ -1,6 +1,8 @@
+package com.github.jlcarveth.main
+
 class TileMap(val size : Int) {
     /**
-     * The 2D Array / Matrix filled with 0s represents an empty TileMap
+     * The 2D Array / Matrix filled with 0s represents an empty com.github.jlcarveth.main.TileMap
      */
     private val tiles = Array(size) { Array(size) { 0 } }
     /**
@@ -28,16 +30,16 @@ class TileMap(val size : Int) {
 
     fun getTilePoint(x : Int, y : Int) : Point<Int> {
         if (x < 0 || y < 0 || x > size-1 || y > size-1) {
-            throw IndexOutOfBoundsException("Point ($x, $y) out of bounds on TileMap of size $size.")
+            throw IndexOutOfBoundsException("com.github.jlcarveth.main.Point ($x, $y) out of bounds on com.github.jlcarveth.main.TileMap of size $size.")
         }
-        val p = Point<Int>(x,y)
+        val p = Point<Int>(x, y)
         p.data = tiles[y][x]
         return p
     }
 
     /**
      * Gets all adjacent points that exist on the tilemap
-     * @throws Point.CoordinatesOutOfBoundsException if the point given does not exist in TileMap
+     * @throws Point.CoordinatesOutOfBoundsException if the point given does not exist in com.github.jlcarveth.main.TileMap
      */
     fun getAdjacentPoints(p : Point<Int>) : ArrayList<Point<Int>> {
         if (p.x > size || p.x < 0 || p.y > size || p.y < 0) {

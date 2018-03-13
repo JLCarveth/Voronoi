@@ -1,3 +1,5 @@
+package com.github.jlcarveth.main
+
 data class Point<E>(val x : Int, val y : Int) {
     var data : E? = null
 
